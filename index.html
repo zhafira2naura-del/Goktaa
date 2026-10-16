@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAPPY BIRTHDAY OKTA SAYANGG KUU ✨</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           1. RESET & VARIABLE WARNA (Tema: Hitam, Navy, Biru Muda / Langit Malam)
+           ========================================================================== */
+        :root {
+            --bg-dark: #070b19;
+            --bg-night: #0b132b;
+            --navy-deep: #1c2541;
+            --navy-card: rgba(16, 26, 56, 0.75);
+            --blue-accent: #3a86ff;
+            --blue-light: #72efdd;
+            --blue-glow: #4cc9f0;
+            --gold-accent: #ffd166;
+            --text-primary: #f0f4fc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --envelope-color: #1a2a52;
+            --envelope-flap: #23386e;
+            --envelope-pocket: #142142;
+            --glass-border: rgba(114, 239, 221, 0.22);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Canvas Latar Belakang Bintang */
+        #starCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Cahaya Ambient Malam */
+        .ambient-glow {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.55;
+            animation: pulseGlow 10s ease-in-out infinite alternate;
+        }
+        .glow-1 {
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(58, 134, 255, 0.35), transparent 70%);
+            top: -10%;
+            left: -10%;
+        }
+        .glow-2 {
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(76, 201, 240, 0.25), transparent 70%);
+            bottom: -10%;
+            right: -10%;
+            animation-delay: -5s;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1) translateY(0); opacity: 0.4; }
+            100% { transform: scale(1.15) translateY(20px); opacity: 0.65; }
+        }
+
+        /* Container Pembungkus Utama */
+        .app-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* ==========================================================================
+           2. HALAMAN PEMBUKA (AMPLOP SURAT RAHASIA)
+           ========================================================================== */
+        #openingScreen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            max-width: 520px;
+            transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #openingScreen.hide {
+            opacity: 0;
+            transform: scale(0.9) translateY(-40px);
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .opening-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: var(--blue-light);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 25px rgba(114, 239, 221, 0.45);
+        }
+
+        .opening-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        /* Desain Amplop Interaktif */
+        .envelope-wrapper {
+            position: relative;
+            width: 290px;
+            height: 200px;
+            cursor: pointer;
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.6))
+                    drop-shadow(0 0 20px rgba(76, 201, 240, 0.2));
+            transition: transform 0.4s ease;
+        }
+
+        .envelope-wrapper:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: var(--envelope-color);
+            border-radius: 12px;
+            overflow: visible;
+        }
+
+        /* Lipatan Atas (Flap) */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 145px solid transparent;
+            border-right: 145px solid transparent;
+            border-top: 110px solid var(--envelope-flap);
+            transform-origin: top;
+            transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+        }
+
+        /* Surat di dalam amplop yang menyembul */
+        .letter-preview {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            right: 20px;
+            height: 150px;
+            background: linear-gradient(145deg, #ffffff, #f0f4fc);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            z-index: 3;
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .letter-line {
+            width: 80%;
+            height: 5px;
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .letter-line.short {
+            width: 50%;
+        }
+
+        .letter-preview-heart {
+            font-size: 1.6rem;
+            animation: beatHeart 1.5s ease-in-out infinite;
+        }
+
+        /* Kantung Amplop (Pocket Depan) */
+        .envelope-pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 145px solid var(--envelope-pocket);
+            border-right: 145px solid var(--envelope-pocket);
+            border-bottom: 105px solid var(--envelope-color);
+            border-top: 95px solid transparent;
+            border-radius: 0 0 12px 12px;
+            z-index: 4;
+        }
+
+        /* Segel Lilin Biru-Emas */
+        .wax-seal {
+            position: absolute;
+            top: 92px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #5ca0ff, #1c458a);
+            border: 2px solid var(--blue-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(114, 239, 221, 0.5);
+            z-index: 6;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .wax-seal span {
+            font-size: 1.3rem;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+        }
+
+        /* Status Ketika Amplop Dibuka */
+        .envelope-wrapper.opened .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 2;
+        }
+
+        .envelope-wrapper.opened .wax-seal {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.6);
+        }
+
+        .envelope-wrapper.opened .letter-preview {
+            transform: translateY(-90px);
+            z-index: 5;
+        }
+
+        .tap-instruction {
+            margin-top: 35px;
+            font-size: 0.95rem;
+            color: var(--blue-glow);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: pulseInstruction 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseInstruction {
+            0%, 100% { opacity: 0.6; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(-4px); }
+        }
+
+        @keyframes beatHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* ==========================================================================
+           3. HALAMAN UTAMA (SURAT KARTU UCAPAN AESTHETIC)
+           ========================================================================== */
+        #mainScreen {
+            display: none;
+            opacity: 0;
+            transform: translateY(30px) scale(0.96);
+            width: 100%;
+            max-width: 680px;
+            transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        #mainScreen.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .card-container {
+            background: var(--navy-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                        0 0 35px rgba(58, 134, 255, 0.15);
+            padding: 42px 36px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Aksen garis tepi bercahaya */
+        .card-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--blue-light), var(--blue-glow), transparent);
+        }
+
+        /* Hiasan Dekorasi Sudut */
+        .corner-star {
+            position: absolute;
+            color: var(--blue-light);
+            font-size: 1.1rem;
+            opacity: 0.75;
+            user-select: none;
+        }
+        .top-left { top: 18px; left: 22px; }
+        .top-right { top: 18px; right: 22px; }
+        .bottom-left { bottom: 18px; left: 22px; }
+        .bottom-right { bottom: 18px; right: 22px; }
+
+        /* Header Ucapan */
+        .card-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .badge-birthday {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(58, 134, 255, 0.15);
+            border: 1px solid rgba(114, 239, 221, 0.3);
+            color: var(--blue-light);
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            padding: 6px 18px;
+            border-radius: 30px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            line-height: 1.25;
+            background: linear-gradient(135deg, #ffffff 20%, var(--blue-light) 75%, var(--blue-glow) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .opening-greeting {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        /* Tampilan Isi Surat */
+        .letter-body {
+            background: rgba(11, 19, 43, 0.55);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 28px 26px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .letter-content {
+            font-size: 0.98rem;
+            line-height: 1.85;
+            color: #e2e8f0;
+            text-align: justify;
+        }
+
+        .letter-content p {
+            margin-bottom: 16px;
+        }
+
+        .letter-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .letter-highlight {
+            color: var(--blue-light);
+            font-weight: 500;
+        }
+
+        .letter-closing {
+            margin-top: 24px;
+            text-align: right;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .letter-closing .sender-sign {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: var(--blue-glow);
+            margin-top: 4px;
+            font-style: normal;
+        }
+
+        /* ==========================================================================
+           4. WIDGET MUSIK AESTHETIC
+           ========================================================================== */
+        .music-widget {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(14, 23, 49, 0.7);
+            border: 1px solid rgba(76, 201, 240, 0.2);
+            border-radius: 18px;
+            padding: 12px 18px;
+            margin-bottom: 26px;
+            gap: 15px;
+        }
+
+        .music-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .vinyl-disc {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #0b132b 30%, #20335e 31%, #0b132b 55%, #1e3a8a 70%);
+            border: 2px solid var(--blue-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .vinyl-disc.rotating {
+            animation: spinVinyl 3.5s linear infinite;
+        }
+
+        .vinyl-center {
+            width: 14px;
+            height: 14px;
+            background: var(--blue-light);
+            border-radius: 50%;
+        }
+
+        @keyframes spinVinyl {
+            100% { transform: rotate(360deg); }
+        }
+
+        .music-details {
+            text-align: left;
+        }
+
+        .music-title {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .music-status {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .music-status.playing {
+            color: var(--blue-light);
+        }
+
+        .btn-music-toggle {
+            background: linear-gradient(135deg, var(--blue-accent), #1c458a);
+            border: 1px solid var(--blue-light);
+            color: white;
+            padding: 9px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(58, 134, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-music-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(76, 201, 240, 0.5);
+        }
+
+        .spotify-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 6px;
+            font-size: 0.75rem;
+            color: #1ed760;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .spotify-link:hover {
+            color: #55f38e;
+            text-decoration: underline;
+        }
+
+        /* ==========================================================================
+           5. TOMBOL KEJUTAN & MODAL POPUP
+           ========================================================================== */
+        .action-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-surprise {
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 14px 34px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.45);
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-surprise::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.6s;
+        }
+
+        .btn-surprise:hover::after {
+            left: 150%;
+        }
+
+        .btn-surprise:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 16px 30px -5px rgba(56, 189, 248, 0.6);
+        }
+
+        .hint-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Modal Pop-up Kejutan */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(4, 8, 18, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-card {
+            background: linear-gradient(160deg, #132247, #0b142c);
+            border: 1px solid var(--blue-glow);
+            border-radius: 28px;
+            width: 100%;
+            max-width: 460px;
+            padding: 36px 30px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8),
+                        0 0 40px rgba(76, 201, 240, 0.3);
+            transform: scale(0.85) translateY(30px);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .surprise-icon {
+            font-size: 3.5rem;
+            margin-bottom: 12px;
+            display: inline-block;
+            animation: bounceCake 2s ease infinite;
+        }
+
+        @keyframes bounceCake {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px) rotate(4deg); }
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.85rem;
+            color: var(--blue-light);
+            margin-bottom: 14px;
+        }
+
+        .modal-message {
+            font-size: 0.96rem;
+            line-height: 1.7;
+            color: #cbd5e1;
+            margin-bottom: 24px;
+        }
+
+        .interactive-cake {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 24px;
+            border: 1px dashed rgba(114, 239, 221, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-cake:hover {
+            background: rgba(58, 134, 255, 0.12);
+            border-color: var(--blue-glow);
+        }
+
+        .candle-container {
+            font-size: 2rem;
+            display: inline-block;
+            position: relative;
+        }
+
+        .flame {
+            display: inline-block;
+            animation: flicker 0.8s ease-in-out infinite alternate;
+            transform-origin: bottom center;
+        }
+
+        .flame.blown-out {
+            display: none;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-2deg); opacity: 0.9; }
+            100% { transform: scale(1.15) rotate(3deg); opacity: 1; filter: drop-shadow(0 0 8px #ffd166); }
+        }
+
+        .cake-instruction {
+            font-size: 0.82rem;
+            color: var(--blue-glow);
+            margin-top: 6px;
+        }
+
+        /* Partikel Efek Bintang/Hati yang Mengambang */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            user-select: none;
+            animation: floatParticle 3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(0.6) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(1.4) rotate(var(--rot));
+            }
+        }
+
+        /* ==========================================================================
+           6. RESPONSIVE DESIGN (HP & DESKTOP)
+           ========================================================================== */
+        @media (max-width: 600px) {
+            .app-container {
+                padding: 14px;
+            }
+            .envelope-wrapper {
+                width: 250px;
+                height: 175px;
+            }
+            .envelope-flap {
+                border-left-width: 125px;
+                border-right-width: 125px;
+                border-top-width: 95px;
+            }
+            .envelope-pocket {
+                border-left-width: 125px;
+                border-right-width: 125px;
+                border-bottom-width: 95px;
+                border-top-width: 80px;
+            }
+            .wax-seal {
+                top: 80px;
+                width: 44px;
+                height: 44px;
+            }
+            .card-container {
+                padding: 30px 20px;
+                border-radius: 22px;
+            }
+            .main-title {
+                font-size: 1.9rem;
+            }
+            .opening-title {
+                font-size: 1.5rem;
+            }
+            .music-widget {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                gap: 12px;
+            }
+            .music-info {
+                justify-content: center;
+            }
+            .btn-music-toggle {
+                justify-content: center;
+            }
+            .modal-card {
+                padding: 28px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas Bintang Langit Malam -->
+    <canvas id="starCanvas"></canvas>
+
+    <!-- Cahaya Latar Estetik -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <div class="app-container">
+
+        <!-- ==========================================
+             1. HALAMAN PEMBUKA (AMPLOP SURAT)
+             ========================================== -->
+        <section id="openingScreen">
+            <h1 class="opening-title">A SMALL WISH FOR YOU</h1>
+            <p class="opening-subtitle">To My Favorite Person.<br>Klik amplop di bawah ini untuk membukanya.</p>
+
+            <div class="envelope-wrapper" id="envelopeBtn" title="Klik untuk membuka surat">
+                <div class="envelope">
+                    <!-- Lipatan amplop -->
+                    <div class="envelope-flap"></div>
+
+                    <!-- Kertas surat yang terlihat di dalam -->
+                    <div class="letter-preview">
+                        <div class="letter-preview-heart">💙</div>
+                        <div class="letter-line"></div>
+                        <div class="letter-line short"></div>
+                    </div>
+
+                    <!-- Kantung amplop -->
+                    <div class="envelope-pocket"></div>
+
+                    <!-- Segel lilin -->
+                    <div class="wax-seal">
+                        <span>✨</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tap-instruction">
+                <span>✦</span> Sentuh amplop untuk membuka <span>✦</span>
+            </div>
+        </section>
+
+
+        <!-- ==========================================
+             2. HALAMAN UTAMA (SURAT KARTU UCAPAN)
+             ========================================== -->
+        <main id="mainScreen">
+            <div class="card-container">
+                <!-- Hiasan Sudut Bintang -->
+                <span class="corner-star top-left">✦</span>
+                <span class="corner-star top-right">✦</span>
+                <span class="corner-star bottom-left">✦</span>
+                <span class="corner-star bottom-right">✦</span>
+
+                <!-- Header Kartu -->
+                <div class="card-header">
+                    <div class="badge-birthday">
+                        <span>★</span> IT'S YOUR DAY! <span>★</span>
+                    </div>
+                    <h1 class="main-title">HAPPY BIRTHDAY 🎉</h1>
+                    <p class="opening-greeting">"Semoga semua yang kamu harapkan bisa terwujud seiring dengan setiap langkah dan usaha yang kamu perjuangkan."</p>
+                </div>
+
+                <!-- Pemutar Musik -->
+                <div class="music-widget">
+                    <div class="music-info">
+                        <div class="vinyl-disc" id="vinylDisc">
+                            <div class="vinyl-center"></div>
+                        </div>
+                        <div class="music-details">
+                            <div class="music-title">
+                                <span>Lagu:</span> CoComelon - Happy Birthday Song 🎶
+                            </div>
+                            <div class="music-status" id="musicStatusText">Status: Siap diputar</div>
+                            <a href="https://open.spotify.com/track/2R5iTxkCln6NLTw6l0kjWw" target="_blank" rel="noopener noreferrer" class="spotify-link" title="Dengarkan di Spotify">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.308c-.215.353-.675.465-1.028.25-2.817-1.722-6.363-2.112-10.54-1.157-.404.092-.806-.16-.898-.564-.092-.404.16-.806.564-.898 4.568-1.044 8.508-.598 11.652 1.341.353.215.465.675.25 1.028zm1.47-3.264c-.27.44-.848.578-1.288.308-3.225-1.982-8.14-2.557-11.954-1.399-.496.15-1.022-.134-1.173-.63-.15-.496.134-1.022.63-1.173 4.364-1.324 9.791-.682 13.477 1.586.44.27.578.848.308 1.288zm.126-3.41c-3.868-2.296-10.25-2.508-13.96-1.382-.593.18-1.22-.16-1.4-.753-.18-.593.16-1.22.753-1.4 4.263-1.294 11.31-1.05 15.753 1.587.533.316.707 1.01.391 1.543-.316.533-1.01.707-1.537.405z"/></svg>
+                                <span>Buka di Spotify</span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn-music-toggle" id="musicToggleBtn">
+                        <span id="musicBtnIcon">▶</span>
+                        <span id="musicBtnLabel">Putar Musik</span>
+                    </button>
+                </div>
+
+                <!-- Isi Surat Ucapan Hangat & Tulus -->
+                <article class="letter-body">
+                    <div class="letter-content">
+                        <p>
+                            Selamatt Siangg, sayangg
+                        </p>
+                        <p>
+                            Kapan pun kamu baca surat inii, entah sekarang atau nanti, nggak masalah kokk. Aku cuma berharap, di waktu kamu baca surat ini, kamu lagi dikeadaan yang baik dan surat kecil ini bisa bikin kamu senyum walaupun cuma sebentarr aja xixixi (senyumnya sambil inget aku loh yaa).
+                        </p>
+                        <p>
+                            Walaupun tadi pagi aku udah ngucapin, aku mau ngucapin sekali lagi di sinii.  
+                        </p>
+                        <p>
+                            <span class="letter-highlight">HAPPY BIRTHDAY SAYANG AKUU</span><br>
+                            Semoga kamu selalu sehat, bahagia, dan dimudahkan dalam segala urusan kamu. Semoga semua impian dan hal-hal yang selama ini kamu impikan bisa pelan-pelan terwujud. Semoga kamu juga selalu dikelilingi sama orang-orang yang tulus sayang sama kamu, yang bisa bikin kamu merasa dihargai dan nyaman jadi diri sendiri.
+                        </p>
+                        <p>
+                            Kalau nanti ada hari-hari yang terasa berat, jangan lupa kalau kamu udah hebat bisa sampai di titik ini. Nggak apa-apa kok kalau sesekali kamu ngerasa capek atau bingung harus ngapain, kamu nggak harus selalu kuat setiap saat. Pelan-pelan aja yaa, nggak perlu buru-buru buat sampai ke semua hal yang kamu pengenin. Aku harap kamu selalu punya semangat buat terus nyoba, dan jangan lupa buat bangga sama diri sendiri atas setiap proses yang udah kamu lewatin, sekecil apa pun itu. 💗
+                        </p>
+                        <p>
+                            Maaf yaa, Oktaa, kalau surat yang aku buat ini belum sebagus yang kamu harapin atau kata-katanya aneh (aku dibantu AI), hehe. Aku mungkin nggak terlalu jago nyusun kata-kata yang bagus, tapi aku beneran berharap semua doa dan harapan baik yang aku tulis di sini bisa sampai ke kamu. 💗
+                        </p>
+                        <p>
+                            Tetaplah bersinar dengan caramu sendiri, seperti bintang yang nggak pernah lelah menerangi malam. Selamat menikmati setiap detik bertambahnya usiamu, Oktaaa! Semoga bahagia selalu nyertai kamu, yaa. ✨🎂💙
+
+                        </p>
+                    </div>
+
+                    <div class="letter-closing">
+                        <div>Dari aku,</div>
+                        <div class="sender-sign">yang berharap banyak hal baik datang ke hidupmu 🫶🏻</div>
+                    </div>
+                </article>
+
+                <!-- Tombol Kejutan -->
+                <div class="action-area">
+                    <button class="btn-surprise" id="openSurpriseBtn">
+                        <span>✨</span>
+                        <span>Klik untuk Pesan Kejutan</span>
+                        <span>🎁</span>
+                    </button>
+                    <p class="hint-text">Ada sedikit hadiah & pesan rahasia tambahan untukmu</p>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- ==========================================
+         3. MODAL POP-UP KEJUTAN
+         ========================================== -->
+    <div class="modal-overlay" id="surpriseModal">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="closeModalBtn" title="Tutup">&times;</button>
+            <div class="surprise-icon">🎂</div>
+            <h2 class="modal-title">Make a Wish! ✨</h2>
+            
+            <p class="modal-message">
+                Tutup matamu sejenak, pikirkan satu harapan terbaikmu untuk tahun ini, lalu sentuh lilin di bawah untuk meniupnya!
+            </p>
+
+            <div class="interactive-cake" id="interactiveCake" title="Klik lilin untuk meniupnya!">
+                <div class="candle-container">
+                    <span class="flame" id="candleFlame">🔥</span>
+                    <span class="cake-base">🕯️🎂</span>
+                </div>
+                <div class="cake-instruction" id="cakeInstruction">
+                    Sentuh lilin untuk meniup api! 💨
+                </div>
+            </div>
+
+            <p style="font-size: 0.88rem; color: #94a3b8; font-style: italic;" id="wishRevealedText">
+                "Setiap doa yang tulus akan selalu menemukan jalan pulang ke semesta untuk dikabulkan."
+            </p>
+        </div>
+    </div>
+
+    <!-- Audio Element untuk File MP3 Lokal atau Eksternal -->
+    <audio id="bgAudio" preload="auto" loop>
+        <source src="lagu.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ==========================================
+         4. JAVASCRIPT LOGIC
+         ========================================== -->
+    <script>
+        /* -----------------------------------------------------------
+           A. ANIMASI LANGIT MALAM & BINTANG BERKELAP-KELIP (CANVAS)
+           ----------------------------------------------------------- */
+        const canvas = document.getElementById('starCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let stars = [];
+        let shootingStars = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initStars();
+        }
+
+        function initStars() {
+            stars = [];
+            const numStars = Math.floor((canvas.width * canvas.height) / 3200);
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.5 + 0.3,
+                    alpha: Math.random() * 0.8 + 0.2,
+                    speed: Math.random() * 0.02 + 0.005,
+                    direction: Math.random() > 0.5 ? 1 : -1
+                });
+            }
+        }
+
+        function createShootingStar() {
+            if (Math.random() < 0.015 && shootingStars.length < 2) {
+                shootingStars.push({
+                    x: Math.random() * canvas.width * 0.8,
+                    y: Math.random() * (canvas.height * 0.4),
+                    length: Math.random() * 80 + 40,
+                    speed: Math.random() * 7 + 4,
+                    angle: Math.PI / 4 + (Math.random() * 0.2 - 0.1),
+                    opacity: 1
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Gambar Bintang Diam & Berkelap-kelip
+            stars.forEach(star => {
+                star.alpha += star.speed * star.direction;
+                if (star.alpha > 0.95 || star.alpha < 0.15) {
+                    star.direction *= -1;
+                }
+
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(186, 230, 253, ${Math.max(0, star.alpha)})`;
+                ctx.shadowBlur = star.radius > 1 ? 6 : 2;
+                ctx.shadowColor = '#72efdd';
+                ctx.fill();
+            });
+
+            // Gambar Bintang Jatuh (Shooting Star)
+            createShootingStar();
+            for (let i = shootingStars.length - 1; i >= 0; i--) {
+                const s = shootingStars[i];
+                const tailX = s.x - Math.cos(s.angle) * s.length;
+                const tailY = s.y - Math.sin(s.angle) * s.length;
+
+                const grad = ctx.createLinearGradient(tailX, tailY, s.x, s.y);
+                grad.addColorStop(0, 'rgba(76, 201, 240, 0)');
+                grad.addColorStop(1, `rgba(255, 255, 255, ${s.opacity})`);
+
+                ctx.beginPath();
+                ctx.moveTo(tailX, tailY);
+                ctx.lineTo(s.x, s.y);
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                s.x += Math.cos(s.angle) * s.speed;
+                s.y += Math.sin(s.angle) * s.speed;
+                s.opacity -= 0.015;
+
+                if (s.opacity <= 0 || s.x > canvas.width || s.y > canvas.height) {
+                    shootingStars.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(drawStars);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        requestAnimationFrame(drawStars);
+
+
+        /* -----------------------------------------------------------
+           B. SISTEM PEMBUKA AMPLOP & PERPINDAHAN HALAMAN
+           ----------------------------------------------------------- */
+        const openingScreen = document.getElementById('openingScreen');
+        const mainScreen = document.getElementById('mainScreen');
+        const envelopeBtn = document.getElementById('envelopeBtn');
+
+        let isEnvelopeOpened = false;
+
+        envelopeBtn.addEventListener('click', () => {
+            if (isEnvelopeOpened) return;
+            isEnvelopeOpened = true;
+
+            // 1. Jalankan animasi pembukaan flap dan surat keluar
+            envelopeBtn.classList.add('opened');
+
+            // 2. Hamburkan sedikit partikel magis saat amplop terbuka
+            const rect = envelopeBtn.getBoundingClientRect();
+            burstParticles(rect.left + rect.width / 2, rect.top + rect.height / 2, 16);
+
+            // 3. Transisi halus ke Halaman Utama setelah jeda animasi
+            setTimeout(() => {
+                openingScreen.classList.add('hide');
+
+                setTimeout(() => {
+                    openingScreen.style.display = 'none';
+                    mainScreen.classList.add('show');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    // Luncurkan efek sambutan selamat ulang tahun
+                    burstParticles(window.innerWidth / 2, window.innerHeight / 3, 25);
+                }, 700);
+            }, 1200);
+        });
+
+
+        /* -----------------------------------------------------------
+           C. SISTEM MUSIK (MP3 DENGAN FALLBACK CHIME WEB AUDIO)
+           ----------------------------------------------------------- */
+        const bgAudio = document.getElementById('bgAudio');
+        const musicToggleBtn = document.getElementById('musicToggleBtn');
+        const musicBtnIcon = document.getElementById('musicBtnIcon');
+        const musicBtnLabel = document.getElementById('musicBtnLabel');
+        const musicStatusText = document.getElementById('musicStatusText');
+        const vinylDisc = document.getElementById('vinylDisc');
+
+        let isPlaying = false;
+        let audioCtx = null;
+        let melodyInterval = null;
+
+        // Not balok melodi piano 'Happy Birthday' untuk fallback jika file lagu.mp3 belum ada
+        const birthdayNotes = [
+            { f: 261.63, d: 350 }, // C4
+            { f: 261.63, d: 350 }, // C4
+            { f: 293.66, d: 700 }, // D4
+            { f: 261.63, d: 700 }, // C4
+            { f: 349.23, d: 700 }, // F4
+            { f: 329.63, d: 1100 }, // E4
+            { f: 0, d: 300 },      // jeda
+
+            { f: 261.63, d: 350 }, // C4
+            { f: 261.63, d: 350 }, // C4
+            { f: 293.66, d: 700 }, // D4
+            { f: 261.63, d: 700 }, // C4
+            { f: 392.00, d: 700 }, // G4
+            { f: 349.23, d: 1100 }, // F4
+            { f: 0, d: 300 },
+
+            { f: 261.63, d: 350 }, // C4
+            { f: 261.63, d: 350 }, // C4
+            { f: 523.25, d: 700 }, // C5
+            { f: 440.00, d: 700 }, // A4
+            { f: 349.23, d: 700 }, // F4
+            { f: 329.63, d: 700 }, // E4
+            { f: 293.66, d: 900 }, // D4
+            { f: 0, d: 300 },
+
+            { f: 466.16, d: 350 }, // Bb4
+            { f: 466.16, d: 350 }, // Bb4
+            { f: 440.00, d: 700 }, // A4
+            { f: 349.23, d: 700 }, // F4
+            { f: 392.00, d: 700 }, // G4
+            { f: 349.23, d: 1200 }, // F4
+            { f: 0, d: 800 }
+        ];
+
+        // Memainkan nada lembut seperti kotak musik kristal/celesta
+        function playChimeTone(freq, duration) {
+            if (!freq || freq <= 0) return;
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.18, audioCtx.currentTime + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + (duration / 1000));
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + (duration / 1000));
+            } catch (e) {
+                console.warn("Audio context error:", e);
+            }
+        }
+
+        let currentNoteIdx = 0;
+        function runSyntheticMusicBox() {
+            if (!isPlaying) return;
+            const current = birthdayNotes[currentNoteIdx];
+            playChimeTone(current.f, current.d);
+
+            currentNoteIdx = (currentNoteIdx + 1) % birthdayNotes.length;
+            melodyInterval = setTimeout(runSyntheticMusicBox, current.d + 50);
+        }
+
+        // Toggle pemutar musik
+        musicToggleBtn.addEventListener('click', () => {
+            if (!isPlaying) {
+                // Coba putar file MP3
+                bgAudio.play().then(() => {
+                    setMusicPlayingState(true, "Memutar: CoComelon - Happy Birthday 🎶");
+                }).catch(() => {
+                    // Jika file 'lagu.mp3' belum ditaruh di folder, otomatis gunakan melodi chime instrumen!
+                    setMusicPlayingState(true, "Memutar Melodi Kotak Musik 🎶");
+                    currentNoteIdx = 0;
+                    runSyntheticMusicBox();
+                });
+            } else {
+                // Jeda musik
+                bgAudio.pause();
+                clearTimeout(melodyInterval);
+                setMusicPlayingState(false, "Musik Dijeda ⏸️");
+            }
+        });
+
+        function setMusicPlayingState(playing, statusText) {
+            isPlaying = playing;
+            if (playing) {
+                musicBtnIcon.textContent = '⏸';
+                musicBtnLabel.textContent = 'Jeda Musik';
+                musicStatusText.textContent = statusText;
+                musicStatusText.classList.add('playing');
+                vinylDisc.classList.add('rotating');
+            } else {
+                musicBtnIcon.textContent = '▶';
+                musicBtnLabel.textContent = 'Putar Musik';
+                musicStatusText.textContent = statusText;
+                musicStatusText.classList.remove('playing');
+                vinylDisc.classList.remove('rotating');
+            }
+        }
+
+
+        /* -----------------------------------------------------------
+           D. FITUR KEJUTAN & INTERAKSI TIUP LILIN
+           ----------------------------------------------------------- */
+        const openSurpriseBtn = document.getElementById('openSurpriseBtn');
+        const surpriseModal = document.getElementById('surpriseModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const interactiveCake = document.getElementById('interactiveCake');
+        const candleFlame = document.getElementById('candleFlame');
+        const cakeInstruction = document.getElementById('cakeInstruction');
+        const wishRevealedText = document.getElementById('wishRevealedText');
+
+        let isFlameBlown = false;
+
+        // Buka modal kejutan
+        openSurpriseBtn.addEventListener('click', (e) => {
+            surpriseModal.classList.add('active');
+            burstParticles(window.innerWidth / 2, window.innerHeight / 2, 30);
+        });
+
+        // Tutup modal kejutan
+        closeModalBtn.addEventListener('click', () => {
+            surpriseModal.classList.remove('active');
+        });
+
+        surpriseModal.addEventListener('click', (e) => {
+            if (e.target === surpriseModal) {
+                surpriseModal.classList.remove('active');
+            }
+        });
+
+        // Interaksi Meniup Lilin
+        interactiveCake.addEventListener('click', () => {
+            if (isFlameBlown) return;
+            isFlameBlown = true;
+
+            candleFlame.classList.add('blown-out');
+            cakeInstruction.innerHTML = "✨ Lilin ditiup! Harapanmu meluncur ke langit... ✨";
+            cakeInstruction.style.color = "#72efdd";
+
+            wishRevealedText.innerHTML = "<strong>Pesan Rahasia:</strong> 'Jadilah bahagia bukan hanya karena hari ini ulang tahunmu, tetapi karena setiap detik dalam hidupmu begitu pantas untuk disyukuri. Semesta mendukung langkahmu!' 💙";
+            wishRevealedText.style.color = "#ffffff";
+
+            // Hamburan partikel bintang & hati masif
+            const cakeRect = interactiveCake.getBoundingClientRect();
+            burstParticles(cakeRect.left + cakeRect.width / 2, cakeRect.top + cakeRect.height / 2, 40);
+        });
+
+
+        /* -----------------------------------------------------------
+           E. GENERATOR PARTIKEL ESTETIK (BINTANG, HATI, KILAUAN)
+           ----------------------------------------------------------- */
+        const particleIcons = ['✨', '💙', '⭐', '✦', '🎉', '🌟', '🤍'];
+
+        function burstParticles(originX, originY, count = 20) {
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = particleIcons[Math.floor(Math.random() * particleIcons.length)];
+
+                // Hitung arah acak
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 160 + 60;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance - (Math.random() * 50); // sedikit naik
+                const rot = (Math.random() * 360 - 180) + 'deg';
+
+                particle.style.left = `${originX}px`;
+                particle.style.top = `${originY}px`;
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.setProperty('--rot', rot);
+                particle.style.fontSize = `${Math.random() * 14 + 14}px`;
+
+                document.body.appendChild(particle);
+
+                // Hapus partikel setelah animasi selesai
+                setTimeout(() => {
+                    particle.remove();
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
